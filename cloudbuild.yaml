@@ -11,16 +11,16 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       [
-          'run',
-          'deploy',
-          'cloud-project-translator-backend',
-          '--image',
-          'gcr.io/$PROJECT_ID/cloud-project-translator-backend',
-          '--region',
-          'asia-southeast1',
-          '--platform',
-          'managed',
-          '--allow-unauthenticated',
+        'run',
+        'deploy',
+        'cloud-project-translator-backend',
+        '--image',
+        'gcr.io/$PROJECT_ID/cloud-project-translator-backend',
+        '--region',
+        'asia-southeast1',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated',
       ]
 images:
   - gcr.io/$PROJECT_ID/cloud-project-translator-backend
