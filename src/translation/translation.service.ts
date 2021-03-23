@@ -25,7 +25,6 @@ export class TranslationService {
         private_key: this.configService.get('gcloud.privateKey'),
       },
     };
-    console.log(this.configService.get('gcloud.privateKey'))
     this.textToSpeechClient = new TextToSpeechClient(googleAuthOptions);
     this.speechToTextClient = new speechToText.SpeechClient(googleAuthOptions);
     this.translationClient = new Translate({
