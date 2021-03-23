@@ -1,8 +1,8 @@
 steps:
   # Create gcp credentials
   - name: 'bash'
-    args: ['cat > .env << ${_GCP_CRED}']
-    
+    args: ['echo ${_GCP_CRED} > gcp.json']
+
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/dev-healthcare-backend', './backend/healthcare']
