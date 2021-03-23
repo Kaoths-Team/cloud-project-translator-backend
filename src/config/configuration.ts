@@ -14,6 +14,6 @@ export default () => ({
   gcloud: {
     projectId: process.env.GCLOUD_PROJECT_ID,
     clientEmail: process.env.GCLOUD_CLIENT_EMAIL,
-    privateKey: process.env.GCLOUD_PRIVATE_KEY,
+    privateKey: `-----BEGIN PRIVATE KEY-----\n${process.env.GCLOUD_PRIVATE_KEY.replace(/\\n/g, '\n')}\n-----END PRIVATE KEY-----`,
   },
 });
