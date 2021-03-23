@@ -11,7 +11,9 @@ export default () => ({
   jwt: {
     secret: process.env.JWT_SECRET,
   },
-  gcp: {
-    projectId: process.env.GOOGLE_CLOUD_PROJECT_ID
-  }
+  gcloud: {
+    projectId: process.env.GCLOUD_PROJECT_ID,
+    clientEmail: process.env.GCLOUD_CLIENT_EMAIL,
+    privateKey: process.env.GCLOUD_PRIVATE_KEY,
+  },
 });
