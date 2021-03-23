@@ -13,6 +13,7 @@ import { TextToSpeechDto } from './translation.dto';
 import { google } from '@google-cloud/text-to-speech/build/protos/protos';
 import AudioEncoding = google.cloud.texttospeech.v1.AudioEncoding;
 import SsmlVoiceGender = google.cloud.texttospeech.v1.SsmlVoiceGender;
+import { Response } from 'express'
 
 @Controller('translation')
 export class TranslationController {
@@ -43,6 +44,6 @@ export class TranslationController {
       ssmlGender: SsmlVoiceGender[gender],
     };
     const readable = await this.translationService.textToSpeech(dto);
-    return readable.pipe(response);
+    return readable.pipe<Response>(response);
   }
 }
