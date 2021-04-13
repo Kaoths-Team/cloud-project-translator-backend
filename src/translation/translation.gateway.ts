@@ -20,7 +20,6 @@ export class TranslationGateway implements OnGatewayConnection, OnGatewayDisconn
   handleConnection(
     @ConnectedSocket() client: Socket,
   ): any {
-    console.log('con', client.id)
     this.server.to(client.id).emit('connected', { clientId: client.id });
   }
 
@@ -35,7 +34,6 @@ export class TranslationGateway implements OnGatewayConnection, OnGatewayDisconn
     @MessageBody() { username, roomName },
   ): Promise<void> {
     const existingRoom = this.getClientCurrentRoom(client);
-    console.log('add')
     if (existingRoom) {
       client.leave(existingRoom);
       this.server.to(existingRoom).emit('leftRoom', { room: existingRoom });
