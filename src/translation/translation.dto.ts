@@ -9,7 +9,19 @@ export class TextToSpeechDto {
   audioEncoding: AudioEncoding;
 }
 
+export class SpeechToTextDto {
+  languageCode: string;
+  audio: string;
+}
+
 export class TranslateDto {
   text: string;
   target: string;
+}
+
+export class ComboDto {
+  roomCode: string
+  sourceLanguageCode: string
+  sourceAudio: string
+  targetLanguageCode: string
 }
