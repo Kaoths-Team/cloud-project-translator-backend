@@ -6,14 +6,15 @@ import {
   HttpCode,
   Post,
   Query,
-  Res,
-} from '@nestjs/common';
+  Res, UploadedFile, UseInterceptors
+} from "@nestjs/common";
 import { TranslationService } from './translation.service';
 import { TextToSpeechDto } from './translation.dto';
 import { google } from '@google-cloud/text-to-speech/build/protos/protos';
 import AudioEncoding = google.cloud.texttospeech.v1.AudioEncoding;
 import SsmlVoiceGender = google.cloud.texttospeech.v1.SsmlVoiceGender;
 import { Response } from 'express'
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller('translation')
 export class TranslationController {
@@ -30,8 +31,7 @@ export class TranslationController {
 
   @Get('/text-to-speech')
   @Header('Content-Type', 'audio/mpeg')
-  // @Header('Content-Disposition', 'attachment; filename="hello-world.mp3"')
-  async getTTS(
+  async textToSpeech(
     @Res() response,
     @Query('text') text: string,
     @Query('lang') languageCode: string,
@@ -45,5 +45,11 @@ export class TranslationController {
     };
     const readable = await this.translationService.textToSpeech(dto);
     return readable.pipe<Response>(response);
+  }
+
+  @Post('speech-to-text')
+  @UseInterceptors(FileInterceptor('speech'))
+  async speechToText(@UploadedFile() file: Express.Multer.File) {
+    return this.translationService.speechToText(file)
   }
 }
