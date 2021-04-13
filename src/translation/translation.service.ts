@@ -72,6 +72,7 @@ export class TranslationService {
         sampleRate: 16000,
         encoding: "WAV",
         languageCode: languageCode,
+        audioChannelCount: 2
       },
       audio: {
         content: audio
