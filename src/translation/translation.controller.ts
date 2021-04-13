@@ -1,3 +1,4 @@
+import { google } from '@google-cloud/text-to-speech/build/protos/protos';
 import {
   Body,
   Controller,
@@ -8,12 +9,11 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
+import { Response } from 'express';
+import { TextToSpeechDto, TranslateDto } from './translation.dto';
 import { TranslationService } from './translation.service';
-import { TextToSpeechDto } from './translation.dto';
-import { google } from '@google-cloud/text-to-speech/build/protos/protos';
 import AudioEncoding = google.cloud.texttospeech.v1.AudioEncoding;
 import SsmlVoiceGender = google.cloud.texttospeech.v1.SsmlVoiceGender;
-import { Response } from 'express'
 
 @Controller('translation')
 export class TranslationController {
@@ -45,5 +45,14 @@ export class TranslationController {
     };
     const readable = await this.translationService.textToSpeech(dto);
     return readable.pipe<Response>(response);
+  }
+
+  @Post('/translate')
+  async translate(@Body() dto: TranslateDto) {
+    const response = await this.translationService.translateText(
+      dto.text,
+      dto.target,
+    );
+    return response;
   }
 }

@@ -8,3 +8,8 @@ export class TextToSpeechDto {
   ssmlGender: SsmlVoiceGender;
   audioEncoding: AudioEncoding;
 }
+
+export class TranslateDto {
+  text: string;
+  target: string;
+}
