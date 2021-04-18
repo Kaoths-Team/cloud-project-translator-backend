@@ -12,6 +12,7 @@ import { TranslationService } from "./translation.service";
 @WebSocketGateway({ transports: ['websocket'] })
 export class TranslationGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
+  private readonly clients = {}
 
   constructor(
     private readonly service: TranslationService
@@ -28,24 +29,37 @@ export class TranslationGateway implements OnGatewayConnection, OnGatewayDisconn
   ): void {
   }
 
-  @SubscribeMessage('addRoom')
-  async handleAddRoom(
+  @SubscribeMessage('joinRoom')
+  async handleJoinRoom(
     @ConnectedSocket() client: Socket,
-    @MessageBody() { username, roomName },
+    @MessageBody() { roomCode, languageCode },
   ): Promise<void> {
     const existingRoom = this.getClientCurrentRoom(client);
     if (existingRoom) {
       client.leave(existingRoom);
       this.server.to(existingRoom).emit('leftRoom', { room: existingRoom });
     }
-    client.join(roomName);
+    client.join(roomCode);
+  }
+
+  @SubscribeMessage('createRoom')
+  async handleCreateRoom(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() { username, roomCode },
+  ): Promise<void> {
+    const existingRoom = this.getClientCurrentRoom(client);
+    if (existingRoom) {
+      client.leave(existingRoom);
+      this.server.to(existingRoom).emit('leftRoom', { username, roomCode: existingRoom });
+    }
+    client.join(roomCode);
     this.server
-      .to(roomName)
+      .to(roomCode)
       .emit('joined', { username });
   }
 
-  @SubscribeMessage('exitRoom')
-  async handleExitRoom(
+  @SubscribeMessage('leaveRoom')
+  async handleLeaveRoom(
     @ConnectedSocket() client: Socket,
     @MessageBody() username,
   ) {
