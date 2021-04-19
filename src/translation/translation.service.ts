@@ -39,7 +39,10 @@ export class TranslationService {
   }
 
   async translateText(text: string, to: string): Promise<string> {
-    const [translation] = await this.translationClient.translate(text, to);
+    const [translation] = await this.translationClient.translate(
+      text,
+      to.split('-')[0],
+    );
     return translation;
   }
 
@@ -70,11 +73,10 @@ export class TranslationService {
     languageCode: string,
   ): Promise<ISpeechRecognitionAlternative[]> {
     const audio: IRecognitionAudio = {
-      content: Uint8Array.from(inputAudio.buffer),
+      content: Uint8Array.from(inputAudio),
     };
     const config: IRecognitionConfig = {
       encoding: STTAudioEncoding.LINEAR16,
-      sampleRateHertz: 16000,
       languageCode,
       audioChannelCount: 2,
     };

@@ -106,6 +106,7 @@ export class TranslationGateway
       this.server
         .to(client.id)
         .emit(SERVER_EVENT.ServiceError, ServiceError.NO_ROOM());
+      return;
     }
     const fromLang = this.client_lang_map.get(client.id);
     if (!fromLang) {
@@ -115,6 +116,7 @@ export class TranslationGateway
           SERVER_EVENT.ServiceError,
           ServiceError.LANGUAGE_CODE_NOT_FOUND(),
         );
+      return;
     }
     // STT source audio
     const alternatives = await this.service.speechToText(audio, fromLang);
@@ -123,16 +125,19 @@ export class TranslationGateway
     const targetIds = this.getClientIdsInRoom(roomCode).filter(
       (id) => id !== client.id,
     );
-    for (const targetId of targetIds) {
-      const toLang = this.client_lang_map.get(targetId);
-      if (!toLang) continue;
+    const groups = this.getUserLanguageCodeGroups(targetIds);
+    for (const languageCode in groups) {
       const translatedText = await this.service.translateText(
         inputText,
-        toLang,
+        languageCode,
       );
-      this.service.textToSpeech(translatedText, toLang).then(([content]) => {
-        this.server.emit(SERVER_EVENT.VoiceResponse, content);
-      });
+      for (const target of groups[languageCode]) {
+        this.service
+          .textToSpeech(translatedText, languageCode)
+          .then(([content]) => {
+            this.server.to(target).emit(SERVER_EVENT.VoiceResponse, content);
+          });
+      }
     }
   }
 
@@ -154,7 +159,24 @@ export class TranslationGateway
     return new Set(this.client_lang_map.keys());
   }
 
-  getClientIdsInRoom(roomCode: string) {
+  private getClientIdsInRoom(roomCode: string) {
     return Object.keys(this.server.sockets.adapter.rooms[roomCode].sockets);
+  }
+
+  private getUserLanguageCodeGroups(
+    ids: string[],
+  ): { [key: string]: string[] } {
+    const userLanguages = ids
+      .filter((id) => !!this.client_lang_map.get(id))
+      .map((id) => ({ id, code: this.client_lang_map.get(id) }));
+    const groups = {};
+    for (const language of userLanguages) {
+      if (language.code in groups) {
+        groups[language.code].push(language.id);
+      } else {
+        groups[language.code] = [language.id];
+      }
+    }
+    return groups;
   }
 }
