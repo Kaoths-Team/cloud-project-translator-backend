@@ -1,73 +1,63 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Thanawat Super Omega  
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Description  
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is backend service of [Thanawat Super Omega](https://web.thanawat-super-omega.kaoths.dev/)  
+Our project provides a tool that allow users who speak different language to be able to communicate with each other  
 
-## Description
+<sub>If you want to run this service locally see [getting start](#getting-start)</sub>  
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Services used  
 
-## Installation
+#### Speech translation  
+To translate speech from one language to another. we uses
+- [Google Cloud Speech-to-Text](https://cloud.google.com/speech-to-text) converts source speech to text
+- [Google Cloud Translation](https://cloud.google.com/translate) translates the text
+- [Google Cloud Text-to-Speech](https://cloud.google.com/text-to-speech) converts translated text to desired language speech
+
+#### Deployment and CI/CD
+- [Google Cloud Build](https://cloud.google.com/build) build and deploy container images
+- [Google Container Registry](https://cloud.google.com/container-registry) store built container images
+- [Google Cloud Run](https://cloud.google.com/run) serverless containerized application hosting
+
+#### Domain registration
+- [Google Domain](https://domains.google.com/) manage dns records
+    - used with built-in CloudRun [Domain Mapping](https://cloud.google.com/run/docs/mapping-custom-domains)
+    
+## Team members  
+
+| id         | firstname | lastname          |
+|------------|-----------|-------------------|
+| 6031014621 | Nathaphum | Niyomsathien      |
+| 6031020321 | Thanawat  | Jierawatanakanok  |
+| 6031021021 | Tanawit   | Kritwongwiman     |
+| 6031032921 | Nithipud  | Tunticharoenviwat |
+
+## Getting start
+
+#### Prerequisites
+- [Node.js](https://nodejs.org/)
+- [yarn](https://yarnpkg.com/getting-started/install) (recommended)
+
+#### Installation
 
 ```bash
-$ npm install
+# install dependencies
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
-# watch mode
-$ npm run start:dev
+# development in watch mode
+$ yarn start:dev
+
+# or just
+$ yarn dev
 
 # production mode
 $ npm run start:prod
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
