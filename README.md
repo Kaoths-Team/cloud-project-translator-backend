@@ -50,7 +50,15 @@ For implementation, we uses
 $ yarn install
 ```
 
-## Running the app
+#### Environments
+```env
+NODE_ENV=
+GCLOUD_PROJECT_ID=
+GCLOUD_CLIENT_EMAIL=
+GCLOUD_PRIVATE_KEY=
+``` 
+
+#### Running the app
 
 ```bash
 # development
